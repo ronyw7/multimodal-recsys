@@ -14,7 +14,7 @@ wget https://datarepo.eng.ucsd.edu/mcauley_group/gdrive/googlelocal_restaurants/
 ### Retrieving Image Files from Google
 For each linked user review image, we need to access Google's user content endpoint to retrieve it. We store the retrieved images in `./data`.
 
-Since the release of the Google Restaurants dataset, some user uploaded content have been deleted or removed. We report the number of valid user review images we were able to collect for each of the train, val, test splits.
+Since the release of the Google Restaurants dataset, some user-uploaded contents have been deleted or removed. We report the number of valid user review images we were able to collect for each of the train, val, test splits.
 - `./data/train` contains 159,426 images
 - `./data/val` contains 20,035 images
 - `./data/test` contains 20,073 images
