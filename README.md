@@ -26,7 +26,7 @@ Image embeddings are generated using the `model.encode_image()` API. Results are
 
 To load it, 
 ```
-embeddings = np.load('embeddings_pics_train.npz', allow_pickle=True)
+embeddings = np.load('embeddings_pics_train.pkl', allow_pickle=True)
 # For model training, use `torch.tensor()` to convert the numpy array into a torch tensor
 key = 'AF1QipMn4wPFuEhb31cx8AzxY86qj6TH4uV8e3o_GARh'
 embeddings = torch.tensor(embeddings[key])
