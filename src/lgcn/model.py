@@ -1,5 +1,6 @@
 """
-Model adapted from https://pytorch-geometric.readthedocs.io/en/2.5.2/_modules/torch_geometric/nn/models/lightgcn.html#LightGCN
+Model adapted from LightGCN source code: 
+https://pytorch-geometric.readthedocs.io/en/2.5.2/_modules/torch_geometric/nn/models/lightgcn.html#LightGCN
 """
 from typing import Optional, Union
 
@@ -30,7 +31,7 @@ class LightGCN(torch.nn.Module):
         self.has_clip_features = has_clip_features
 
         if self.has_clip_features:
-            self.clip_features = Parameter(torch.zeros(num_nodes, embedding_dim))
+            self.clip_features = Embedding(num_nodes, embedding_dim)
             self.feature_weight = Parameter(torch.tensor(0.5))
 
         if alpha is None:
@@ -52,11 +53,8 @@ class LightGCN(torch.nn.Module):
         r"""Initialize this model with pre-trained CLIP features."""
         if not self.has_clip_features:
             raise ValueError("Model was not initialized with CLIP features support")
-        
-        if data.shape != self.clip_features.shape:
-            raise ValueError(f"Data shape {data.shape} does not match expected shape {self.clip_features.shape}")
     
-        self.clip_features.data.copy_(data)
+        self.clip_features.weight.data.copy_(data)
     
     def initialize_node_embedding(self, data: torch.Tensor):
         self.embedding.weight.data.copy_(data)
@@ -70,7 +68,7 @@ class LightGCN(torch.nn.Module):
         x = self.embedding.weight
         
         if self.has_clip_features:
-            x = self.feature_weight * x + (1 - self.feature_weight) * self.clip_features
+            x = self.feature_weight * x + (1 - self.feature_weight) * self.clip_features.weight
         out = x * self.alpha[0]
 
         for i in range(self.num_layers):
